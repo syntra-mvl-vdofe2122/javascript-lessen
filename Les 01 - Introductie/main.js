@@ -118,11 +118,25 @@ function shorterText(text) {
 
 // boom > mboo
 function lastFirst(text) {
-    let lastLetter = text;
+    let lastLetter = text[text.length - 1];
+    let otherLetters = text.substring(0, text.length - 1);
+
+    return lastLetter + otherLetters;
 }
 
 // boom > oomb
-function firstLast(text) {}
+function firstLast(text) {
+    let firstLetter = text[0];
+    let otherLetters = text.substring(1);
+
+    return otherLetters + firstLetter;
+}
 
 // boom > moob
-function firstLastFirst(text) {}
+function firstLastFirst(text) {
+    let firstLetter = text[0];
+    let lastLetter = text[text.length - 1];
+    let otherLetters = text.substring(1, text.length - 1);
+
+    return lastLetter + otherLetters + firstLetter;
+}
