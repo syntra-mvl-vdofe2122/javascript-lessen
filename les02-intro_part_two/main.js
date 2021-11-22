@@ -197,7 +197,13 @@ function square(aNumber) {
  * @return {number} Lowest number
  */
 function min(numberOne, numberTwo) {
+    v;
 
+    // if (numberOne < numberTwo) {
+    //     return numberOne;
+    // }
+    //
+    // return numberTwo;
 }
 
 /**
@@ -206,7 +212,15 @@ function min(numberOne, numberTwo) {
  * @param {number} numberTwo
  * @return {number} Highest number
  */
-function max(numberOne, numberTwo) {}
+function max(numberOne, numberTwo) {
+    if (numberOne > numberTwo) {
+        return numberOne;
+    } else {
+        return numberTwo;
+    }
+
+    // Math.max(numberOne, numberTwo);
+}
 
 /**
  * Calculate according to input:
@@ -215,7 +229,48 @@ function max(numberOne, numberTwo) {}
  * @param {number} numberTwo
  * @return {number} Result of operation
  */
-function calculate(op, numberOne, numberTwo) {}
+function calculate(op, numberOne, numberTwo) {
+    if (op === 'plus') {
+        return numberOne + numberTwo;
+    }
+
+    if (op === 'min') {
+        return numberOne - numberTwo;
+    }
+
+    if (op === 'divide') {
+        return numberOne / numberTwo;
+    }
+
+    if (op === 'multiply') {
+        return numberOne * numberTwo;
+    }
+
+    console.error(
+        op +
+            " is not a valid operation, choose: 'plus', 'min', 'divide', 'multiply'",
+    );
+    return numberOne;
+
+    // switch (op) {
+    //     case 'plus':
+    //         return numberOne + numberTwo;
+    //     case 'min':
+    //         return numberOne - numberTwo;
+    //     case 'divide':
+    //         return numberOne / numberTwo;
+    //     case 'multiply':
+    //         return numberOne * numberTwo;
+    //     default:
+    //         console.error(
+    //           op +
+    //           " is not a valid operation, choose: 'plus', 'min', 'divide', 'multiply'",
+    //         );
+    //         return numberOne;
+    // }
+}
+
+calculate('Plus', 2, 3);
 
 /**
  * Guessing game:
@@ -226,5 +281,18 @@ function calculate(op, numberOne, numberTwo) {}
  * If user guess is to high: alert 'Too high'
  */
 function guess() {
+    let randomNumber = Math.floor(Math.random() * 11);
+    console.log(randomNumber);
 
+    let userNumber = parseInt(prompt('Guess a number between 0 and 10'));
+
+    if (userNumber === randomNumber) {
+        alert('You won');
+    } else if (userNumber < randomNumber) {
+        alert('Too low');
+    } else if (userNumber > randomNumber) {
+        alert('Too high');
+    }
 }
+
+guess();
