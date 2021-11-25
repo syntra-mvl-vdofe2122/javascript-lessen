@@ -12,9 +12,9 @@
  */
 function guessingGame() {
     let tryAgain = true;
-    let count = 0;
 
     while (tryAgain) {
+        let count = 0;
         let randomNumber = Math.floor(Math.random() * 11);
 
         let guess = NaN;
