@@ -50,31 +50,60 @@ function assertFunctionExists(functionName, $assertContainer) {
     }
 }
 
-async function assertResult($assertContainer, functionName, params, expected) {
+async function assertResult(
+    $assertContainer,
+    functionName,
+    params,
+    expected,
+    name = '',
+    reverse = false,
+) {
     const paramsString = JSON.stringify(params);
     const expectedString = JSON.stringify(expected);
     const actualString = JSON.stringify(
         await window[functionName].apply(this, params),
     );
 
-    appendTo($assertContainer, `<h3>${functionName}:</h3>`);
+    if (name) {
+        appendTo($assertContainer, `<h3>${name}:</h3>`);
+    }
 
-    if (expectedString === actualString) {
-        appendTo(
-            $assertContainer,
-            `<p class="asserter success">${success()} <code>${functionName}(${paramsString.substring(
-                1,
-                paramsString.length - 1,
-            )})</code> did return <code>${expectedString}</code></p>`,
-        );
+    if (reverse) {
+        if (expectedString !== actualString) {
+            appendTo(
+                $assertContainer,
+                `<p class='asserter success'>${success()} <code>${functionName}(${paramsString.substring(
+                    1,
+                    paramsString.length - 1,
+                )})</code> did not return <code>${expectedString}</code></p>`,
+            );
+        } else {
+            appendTo(
+                $assertContainer,
+                `<p class='asserter fail'>${fail()} <code>${functionName}(${paramsString.substring(
+                    1,
+                    paramsString.length - 1,
+                )})</code> did return <code>${expectedString}</code></p><p>${spacing()} it returned: <code>${actualString}</code></p>`,
+            );
+        }
     } else {
-        appendTo(
-            $assertContainer,
-            `<p class="asserter fail">${fail()} <code>${functionName}(${paramsString.substring(
-                1,
-                paramsString.length - 1,
-            )})</code> did not return <code>${expectedString}</code></p><p>${spacing()} it returned: <code>${actualString}</code></p>`,
-        );
+        if (expectedString === actualString) {
+            appendTo(
+                $assertContainer,
+                `<p class='asserter success'>${success()} <code>${functionName}(${paramsString.substring(
+                    1,
+                    paramsString.length - 1,
+                )})</code> did return <code>${expectedString}</code></p>`,
+            );
+        } else {
+            appendTo(
+                $assertContainer,
+                `<p class='asserter fail'>${fail()} <code>${functionName}(${paramsString.substring(
+                    1,
+                    paramsString.length - 1,
+                )})</code> did not return <code>${expectedString}</code></p><p>${spacing()} it returned: <code>${actualString}</code></p>`,
+            );
+        }
     }
 }
 
@@ -105,8 +134,30 @@ async function assertResult($assertContainer, functionName, params, expected) {
     await assertResult(
         $assertContainer,
         functionName,
+        [[1, 2, 3, 4, 4]],
+        [1, 2, 3, 4],
+        'Simple',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [[1, 2, 3, 4, 4, 4]],
+        [1, 2, 3, 4],
+        'Triple',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [[1, 2, 3, 4]],
+        [1, 2, 3, 4],
+        'None',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
         [[3, 5, 7, 12, 3, 6, 9, 10, 10, 5]],
         [3, 5, 7, 12, 6, 9, 10],
+        'Multiple',
     );
 })();
 
@@ -123,8 +174,23 @@ async function assertResult($assertContainer, functionName, params, expected) {
     await assertResult(
         $assertContainer,
         functionName,
+        [[1, 2, 3, 4, 5]],
+        [2, 4],
+        'Simple',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [[1, 3, 5]],
+        [],
+        'Empty',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
         [[3, 5, 7, 12, 3, 6, 9, 10, 10, 5]],
-        [12, 6, 10],
+        [12, 6, 10, 10],
+        'With doubles',
     );
 })();
 
@@ -141,8 +207,16 @@ async function assertResult($assertContainer, functionName, params, expected) {
     await assertResult(
         $assertContainer,
         functionName,
+        [[4, 2, 8, 11]],
+        [2, 4, 8, 11],
+        'Simple',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
         [[3, 5, 7, 12, 3, 6, 9, 10, 10, 5]],
         [3, 3, 5, 5, 6, 7, 9, 10, 10, 12],
+        'With doubles',
     );
 })();
 
@@ -156,8 +230,27 @@ async function assertResult($assertContainer, functionName, params, expected) {
     );
 
     assertFunctionExists(functionName, $assertContainer);
-    await assertResult($assertContainer, functionName, ['word'], 'drow');
-    await assertResult($assertContainer, functionName, ['Korneel'], 'Leenrok');
+    await assertResult(
+        $assertContainer,
+        functionName,
+        ['word'],
+        'drow',
+        'All lowercase',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        ['Korneel'],
+        'Leenrok',
+        'Camelcase',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        ['SloWdiVe'],
+        'EviDwoLs',
+        'Random case',
+    );
 })();
 
 (async function findSimilars() {
@@ -178,8 +271,8 @@ async function assertResult($assertContainer, functionName, params, expected) {
             [5, 3, 9, 11],
         ],
         [5, 11],
+        'Some similars',
     );
-
     await assertResult(
         $assertContainer,
         functionName,
@@ -188,6 +281,37 @@ async function assertResult($assertContainer, functionName, params, expected) {
             ['Particulas', 'cantare', 'in', 'castus', 'oenipons'],
         ],
         [],
+        'No similars',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [
+            [2, 5, 8, 11, 11],
+            [5, 3, 9, 11, 11],
+        ],
+        [5, 11, 11],
+        'Double numbers',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [
+            [2, 5, 8, 11, 11],
+            [5, 3, 9, 11],
+        ],
+        [5, 11],
+        'Double numbers in [anArray]',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [
+            [2, 5, 8, 11],
+            [5, 3, 9, 11, 11],
+        ],
+        [5, 11],
+        'Double numbers in [otherArray]',
     );
 })();
 
@@ -206,6 +330,15 @@ async function assertResult($assertContainer, functionName, params, expected) {
         functionName,
         [[3, 5, 7, 12, 3, 6, 9, 10, 10, 5]],
         [10, 3, 10, 12, 3, 5, 6, 7, 5, 9],
+        'Possible scramble (this will never be valid because I can not test a random value)',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [[3, 5, 7, 12, 3, 6, 9, 10, 10, 5]],
+        [3, 5, 7, 12, 3, 6, 9, 10, 10, 5],
+        'Not scrambled',
+        true,
     );
 })();
 
@@ -227,5 +360,26 @@ async function assertResult($assertContainer, functionName, params, expected) {
             [12, 3, 6, 9],
         ],
         true,
+        'Valid sublist',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [
+            [3, 5, 7, 12, 3, 6, 9, 10, 10, 5],
+            [12, 3, 9],
+        ],
+        true,
+        'Missing value',
+    );
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [
+            [3, 5, 7, 12, 3, 6, 9, 10, 10, 5],
+            [12, 3, 7, 9],
+        ],
+        true,
+        'Wrong value',
     );
 })();

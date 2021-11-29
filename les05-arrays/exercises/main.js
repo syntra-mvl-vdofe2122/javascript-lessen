@@ -31,10 +31,10 @@ function sort(anArray) {}
 function reverseString(aString) {}
 
 /**
- * Given two arrays of strings, return an array with only the strings that occur in both arrays
- * @param {string[]} anArray
- * @param {string[]} otherArray
- * @return {string[]}
+ * Given two arrays of values, return an array with only the values that occur in both arrays
+ * @param {array} anArray
+ * @param {array} otherArray
+ * @return {array}
  */
 function findSimilars(anArray, otherArray) {}
 
