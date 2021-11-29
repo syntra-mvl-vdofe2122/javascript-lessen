@@ -4,10 +4,7 @@ function loadCss(filename) {
     const fileref = document.createElement('link');
     fileref.setAttribute('rel', 'stylesheet');
     fileref.setAttribute('type', 'text/css');
-    fileref.setAttribute(
-        'href',
-        'https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css',
-    );
+    fileref.setAttribute('href', filename);
     document.getElementsByTagName('head')[0].appendChild(fileref);
 }
 
@@ -53,22 +50,14 @@ function assertFunctionExists(functionName, $assertContainer) {
     }
 }
 
-async function assertResult(
-    $assertContainer,
-    functionName,
-    params,
-    expected,
-    name = '',
-) {
+async function assertResult($assertContainer, functionName, params, expected) {
     const paramsString = JSON.stringify(params);
     const expectedString = JSON.stringify(expected);
     const actualString = JSON.stringify(
         await window[functionName].apply(this, params),
     );
 
-    if (name) {
-        appendTo($assertContainer, `<h3>${name}:</h3>`);
-    }
+    appendTo($assertContainer, `<h3>${functionName}:</h3>`);
 
     if (expectedString === actualString) {
         appendTo(
@@ -118,6 +107,125 @@ async function assertResult(
         functionName,
         [[3, 5, 7, 12, 3, 6, 9, 10, 10, 5]],
         [3, 5, 7, 12, 6, 9, 10],
-        'doubleNumbers',
+    );
+})();
+
+(async function onlyEven() {
+    const functionName = 'onlyEven';
+    if (!appendContainer(functionName)) {
+        return;
+    }
+    const $assertContainer = document.querySelector(
+        '#' + functionName + ' .assert-container',
+    );
+
+    assertFunctionExists(functionName, $assertContainer);
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [[3, 5, 7, 12, 3, 6, 9, 10, 10, 5]],
+        [12, 6, 10],
+    );
+})();
+
+(async function sort() {
+    const functionName = 'sort';
+    if (!appendContainer(functionName)) {
+        return;
+    }
+    const $assertContainer = document.querySelector(
+        '#' + functionName + ' .assert-container',
+    );
+
+    assertFunctionExists(functionName, $assertContainer);
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [[3, 5, 7, 12, 3, 6, 9, 10, 10, 5]],
+        [3, 3, 5, 5, 6, 7, 9, 10, 10, 12],
+    );
+})();
+
+(async function reverseString() {
+    const functionName = 'reverseString';
+    if (!appendContainer(functionName)) {
+        return;
+    }
+    const $assertContainer = document.querySelector(
+        '#' + functionName + ' .assert-container',
+    );
+
+    assertFunctionExists(functionName, $assertContainer);
+    await assertResult($assertContainer, functionName, ['word'], 'drow');
+    await assertResult($assertContainer, functionName, ['Korneel'], 'Leenrok');
+})();
+
+(async function findSimilars() {
+    const functionName = 'findSimilars';
+    if (!appendContainer(functionName)) {
+        return;
+    }
+    const $assertContainer = document.querySelector(
+        '#' + functionName + ' .assert-container',
+    );
+
+    assertFunctionExists(functionName, $assertContainer);
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [
+            [2, 5, 8, 11],
+            [5, 3, 9, 11],
+        ],
+        [5, 11],
+    );
+
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [
+            ['Pol', 'a', 'bene', 'cedrium', 'terror'],
+            ['Particulas', 'cantare', 'in', 'castus', 'oenipons'],
+        ],
+        [],
+    );
+})();
+
+(async function scramble() {
+    const functionName = 'scramble';
+    if (!appendContainer(functionName)) {
+        return;
+    }
+    const $assertContainer = document.querySelector(
+        '#' + functionName + ' .assert-container',
+    );
+
+    assertFunctionExists(functionName, $assertContainer);
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [[3, 5, 7, 12, 3, 6, 9, 10, 10, 5]],
+        [10, 3, 10, 12, 3, 5, 6, 7, 5, 9],
+    );
+})();
+
+(async function isSublist() {
+    const functionName = 'isSublist';
+    if (!appendContainer(functionName)) {
+        return;
+    }
+    const $assertContainer = document.querySelector(
+        '#' + functionName + ' .assert-container',
+    );
+
+    assertFunctionExists(functionName, $assertContainer);
+    await assertResult(
+        $assertContainer,
+        functionName,
+        [
+            [3, 5, 7, 12, 3, 6, 9, 10, 10, 5],
+            [12, 3, 6, 9],
+        ],
+        true,
     );
 })();

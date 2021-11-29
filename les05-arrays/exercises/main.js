@@ -23,6 +23,8 @@ function sort(anArray) {}
 
 /**
  * Reverse the string
+ * Try to keep the same casing (if first letter is
+ * uppercase, make sure it is still uppercase in the reversed word
  * @param {string} aString
  * @return {string}
  */
