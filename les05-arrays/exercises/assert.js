@@ -16,10 +16,15 @@ function appendTo($element, html) {
 }
 
 function appendContainer(name) {
+    if (document.getElementById(name)) {
+        return false;
+    }
     appendTo(
         window.$assertContainer,
         `<div id="${name}"><h2>${name}</h2><div class="assert-container"></div></div>`,
     );
+
+    return true;
 }
 
 function spacing() {
@@ -100,7 +105,9 @@ async function assertResult(
 
 (async function removeDoubles() {
     const functionName = 'removeDoubles';
-    appendContainer(functionName);
+    if (!appendContainer(functionName)) {
+        return;
+    }
     const $assertContainer = document.querySelector(
         '#' + functionName + ' .assert-container',
     );
