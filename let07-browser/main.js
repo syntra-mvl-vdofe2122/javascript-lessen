@@ -153,3 +153,29 @@ greenP.innerHTML = 'Iets nieuws, <strong>echt nieuws</strong>';
 // EXERCISE
 
 // write a function that highlight all words longer than 8 chars
+
+function colourLongWords() {
+    // let par = document.querySelector('#latin-p');
+    let par = document.getElementById('latin-p');
+    let parText = par.innerText;
+    console.log(parText);
+
+    let words = parText.split(' ');
+    console.log(words);
+
+    for (let i = 0; i < words.length; i++) {
+        let word = words[i];
+        if (word.length > 8) {
+            words[i] = `<span class='green'>${word}</span>`;
+        }
+    }
+
+    console.log(words);
+
+    let newParText = words.join(' ');
+    console.log(newParText);
+
+    par.innerHTML = newParText;
+}
+
+colourLongWords();
