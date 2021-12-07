@@ -16,7 +16,23 @@ function createList(el, ordered, items) {
 
     for (let i = 0; i < items.length; i++) {
         let listItem = document.createElement('li');
-        listItem.innerText = items[i];
+
+        if (typeof items[i] === 'string') {
+            listItem.innerText = items[i];
+        } else {
+            //     let subList = document.createElement('ul');
+            //
+            //     for (let j = 0; j < items[i].length; j++) {
+            //         let subListItem = document.createElement('li');
+            //         subListItem.innerText = items[i][j];
+            //         subList.append(subListItem);
+            //     }
+            //
+            //     listItem.append(subList);
+
+            createList(listItem, false, items[i]);
+        }
+
         listEl.append(listItem);
     }
 
@@ -28,7 +44,7 @@ let listItems = [
     'Bart',
     'Dzhamal',
     'Energerta',
-    ['1', '2', '3'],
+    ['1', '2', ['a', 'b', 'c']],
     'Margot',
     'Yves',
 ];

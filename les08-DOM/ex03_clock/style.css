@@ -1,0 +1,9 @@
+#clock > span {
+    font-size: 50px;
+    font-family: monospace;
+    background-color: darkblue;
+    color: antiquewhite;
+    padding: 10px 15px;
+    margin: 4px;
+    border-radius: 5px;
+}
