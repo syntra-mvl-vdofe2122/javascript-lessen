@@ -1,0 +1,14 @@
+.input-container {
+    display: flex;
+}
+
+.guess {
+    border: 1px solid white;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.hide {
+    display: none;
+}
