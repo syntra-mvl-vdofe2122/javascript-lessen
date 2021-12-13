@@ -24,40 +24,71 @@ let tableContent = [
  * @param {Array} data
  */
 
+// function genTable(data) {
+//     let tableContainer = document.getElementById('table-container');
+//     let table = document.createElement('table');
+//     let thead = document.createElement('thead');
+//     let theadRow = document.createElement('tr');
+//
+//     let keys = Object.keys(data[0]);
+//
+//     for (let i = 0; i < keys.length; i++) {
+//         let th = document.createElement('th');
+//         th.innerText = keys[i];
+//         theadRow.append(th);
+//     }
+//
+//     thead.append(theadRow);
+//     table.append(thead);
+//
+//     let tbody = document.createElement('tbody');
+//
+//     for (let i = 0; i < data.length; i++) {
+//         let tbodyRow = document.createElement('tr');
+//         let values = Object.values(data[i]);
+//
+//         for (let j = 0; j < values.length; j++) {
+//             let td = document.createElement('td');
+//             td.innerText = values[j];
+//             tbodyRow.append(td);
+//         }
+//
+//         tbody.append(tbodyRow);
+//     }
+//
+//     table.append(tbody);
+//     tableContainer.append(table);
+// }
+
 function genTable(data) {
     let tableContainer = document.getElementById('table-container');
-    let table = document.createElement('table');
-    let thead = document.createElement('thead');
-    let theadRow = document.createElement('tr');
+    let html = `<table><thead><tr>`;
 
     let keys = Object.keys(data[0]);
 
     for (let i = 0; i < keys.length; i++) {
-        let th = document.createElement('th');
-        th.innerText = keys[i];
-        theadRow.append(th);
+        html += `<th>${keys[i]}</th>`;
     }
 
-    thead.append(theadRow);
-    table.append(thead);
-
-    let tbody = document.createElement('tbody');
+    html += `</tr></thead><tbody>`;
 
     for (let i = 0; i < data.length; i++) {
-        let tbodyRow = document.createElement('tr');
+        html += `<tr>`;
+
         let values = Object.values(data[i]);
 
         for (let j = 0; j < values.length; j++) {
-            let td = document.createElement('td');
-            td.innerText = values[j];
-            tbodyRow.append(td);
+            html += `<td>${values[j]}</td>`;
         }
 
-        tbody.append(tbodyRow);
+        html += `</tr>`;
     }
 
-    table.append(tbody);
-    tableContainer.append(table);
+    html += `</tbody></table>`;
+
+    console.log(html);
+
+    tableContainer.insertAdjacentHTML('beforeend', html);
 }
 
 genTable(tableContent);
