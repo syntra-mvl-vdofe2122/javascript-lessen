@@ -1,0 +1,33 @@
+body {
+    text-align: center;
+}
+
+.score-container {
+    display: flex;
+    justify-content: center;
+}
+
+.score-container p {
+    padding: 0 10px;
+    border-left: 1px solid white;
+}
+
+.score-container p:first-child {
+    border-left: none;
+}
+
+#input-container,
+.ai-container {
+    display: flex;
+    justify-content: center;
+}
+
+#input-container button,
+.ai-container button {
+    display: block;
+    width: 150px;
+}
+
+.hide {
+    display: none;
+}
