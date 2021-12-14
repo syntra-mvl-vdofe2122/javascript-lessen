@@ -4,9 +4,11 @@ let $countContainer = document.getElementById('count-container');
 let $guessContainer = document.getElementById('guess-container');
 let $messageContainer = document.getElementById('message-container');
 let $playAgainBtn = document.getElementById('play-again-btn');
+let $maxGuesses = document.getElementById('max-guesses');
 
 let randomNumber;
 let gameOver = false;
+let maxTries = 5;
 
 function setGuessCount() {
     $countContainer.innerText = $guessContainer.children.length;
@@ -17,10 +19,12 @@ function init() {
     $messageContainer.innerText = '';
     $guessInput.value = '';
     $playAgainBtn.classList.add('hide');
+    $maxGuesses.innerText = maxTries;
     gameOver = false;
     setGuessCount();
 
     randomNumber = Math.floor(Math.random() * 11);
+    console.log(randomNumber);
 }
 
 function guessBtnClicked() {
@@ -55,6 +59,12 @@ function guessBtnClicked() {
 
     if (curValue > randomNumber) {
         $messageContainer.innerText = 'Too high, guess again';
+    }
+
+    if ($guessContainer.children.length === maxTries && !gameOver) {
+        $messageContainer.innerText = `You guessed ${maxTries} times, the correct number was ${randomNumber}. Play again?`;
+        gameOver = true;
+        $playAgainBtn.classList.remove('hide');
     }
 
     $guessInput.value = '';
