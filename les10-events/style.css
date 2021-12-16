@@ -1,0 +1,10 @@
+.drawing {
+    width: 1px;
+    height: 1px;
+    background-color: goldenrod;
+    position: absolute;
+}
+
+body {
+    min-height: 150vh;
+}
