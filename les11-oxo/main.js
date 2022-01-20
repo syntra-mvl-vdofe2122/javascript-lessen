@@ -1,14 +1,55 @@
+//****************//
+// DOM queries
+//****************//
+
 let $oxoGrid = document.querySelector('.oxo-grid');
 let $curPlayer = document.getElementById('cur-player');
 let $messageContainer = document.getElementById('message-container');
+let $playAgainBtn = document.getElementById('play-again-btn');
+let $scoreX = document.getElementById('score-x');
+let $scoreO = document.getElementById('score-o');
+
+//****************//
+// State
+//****************//
 
 let turn = 'x';
 let gameOver = false;
-let board = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-];
+let scoreX = 0;
+let scoreO = 0;
+let board = [];
+let scoreCount = 3;
+
+//****************//
+// Init new game
+//****************//
+function initBoard(size) {
+    board = [];
+
+    for (let y = 0; y < size; y++) {
+        let row = [];
+
+        for (let x = 0; x < size; x++) {
+            row.push(null);
+        }
+
+        board.push(row);
+    }
+}
+
+function init() {
+    $playAgainBtn.classList.add('hide');
+    gameOver = false;
+    turn = 'x';
+    initBoard(5);
+
+    drawBoard();
+    drawTurn();
+}
+
+//****************//
+// Draw functions
+//****************//
 
 function drawBoard() {
     $oxoGrid.innerHTML = '';
@@ -37,15 +78,18 @@ function drawBoard() {
     }
 }
 
-function changeTurn() {
-    if (turn === 'x') {
-        turn = 'o';
-    } else {
-        turn = 'x';
-    }
+function drawScores() {
+    $scoreX.innerText = scoreX;
+    $scoreO.innerText = scoreO;
+}
 
+function drawTurn() {
     $curPlayer.innerText = turn.toUpperCase();
 }
+
+//****************//
+// Check for winners and tie
+//****************//
 
 function checkFullBoard() {
     for (let x = 0; x < board.length; x++) {
@@ -59,7 +103,7 @@ function checkFullBoard() {
     return true;
 }
 
-function checkWinners() {
+function checkRowWinners() {
     for (let x = 0; x < board.length; x++) {
         let xCount = 0;
         let oCount = 0;
@@ -73,11 +117,11 @@ function checkWinners() {
             }
         }
 
-        if (xCount === board.length) {
+        if (xCount === scoreCount) {
             return 'x';
         }
 
-        if (oCount === board.length) {
+        if (oCount === scoreCount) {
             return 'o';
         }
     }
@@ -85,12 +129,132 @@ function checkWinners() {
     return null;
 }
 
-function init() {
-    drawBoard();
+function checkColWinners() {
+    for (let y = 0; y < board[0].length; y++) {
+        let xCount = 0;
+        let oCount = 0;
+        for (let x = 0; x < board.length; x++) {
+            if (board[x][y] === 'x') {
+                xCount++;
+            }
+
+            if (board[x][y] === 'o') {
+                oCount++;
+            }
+        }
+
+        if (xCount === scoreCount) {
+            return 'x';
+        }
+
+        if (oCount === scoreCount) {
+            return 'o';
+        }
+    }
+
+    return null;
+}
+
+function checkDiagonalDownWinners() {
+    let xCount = 0;
+    let oCount = 0;
+
+    for (let i = 0; i < board.length; i++) {
+        if (board[i][i] === 'x') {
+            xCount++;
+        }
+
+        if (board[i][i] === 'o') {
+            oCount++;
+        }
+    }
+
+    if (xCount === scoreCount) {
+        return 'x';
+    }
+
+    if (oCount === scoreCount) {
+        return 'o';
+    }
+
+    return null;
+}
+
+function checkDiagonalUpWinners() {
+    let y = 2;
+
+    let xCount = 0;
+    let oCount = 0;
+
+    for (let x = 0; x < board[0].length; x++) {
+        console.log(`${x} - ${y}`);
+        if (board[x][y] === 'x') {
+            xCount++;
+        }
+
+        if (board[x][y] === 'o') {
+            oCount++;
+        }
+
+        y--;
+    }
+
+    if (xCount === scoreCount) {
+        return 'x';
+    }
+
+    if (oCount === scoreCount) {
+        return 'o';
+    }
+
+    return null;
+}
+
+function checkWinners() {
+    let rowWinners = checkRowWinners();
+
+    if (rowWinners) {
+        return rowWinners;
+    }
+
+    let colWinners = checkColWinners();
+    if (colWinners) {
+        return colWinners;
+    }
+
+    let diagonalDownWinners = checkDiagonalDownWinners();
+    if (diagonalDownWinners) {
+        return diagonalDownWinners;
+    }
+
+    let diagonalUpWinners = checkDiagonalUpWinners();
+    if (diagonalUpWinners) {
+        return diagonalUpWinners;
+    }
+
+    return null;
+}
+
+//****************//
+// Turn
+//****************//
+
+function changeTurn() {
+    if (turn === 'x') {
+        turn = 'o';
+    } else {
+        turn = 'x';
+    }
+    drawTurn();
 }
 
 function gridClicked(event) {
     let $curEl = event.target;
+
+    if (!event.target.matches('.col')) {
+        return;
+    }
+
     let curX = parseInt($curEl.dataset.x);
     let curY = parseInt($curEl.dataset.y);
     let curVal = board[curX][curY];
@@ -109,19 +273,32 @@ function gridClicked(event) {
     if (winner === 'x') {
         gameOver = true;
         $messageContainer.innerText = 'X won';
+        scoreX++;
     }
 
     if (winner === 'o') {
         gameOver = true;
         $messageContainer.innerText = 'O won';
+        scoreO++;
     }
 
     if (!gameOver && checkFullBoard()) {
         gameOver = true;
         $messageContainer.innerText = `Game over, it's a tie`;
     }
+
+    if (gameOver) {
+        $playAgainBtn.classList.remove('hide');
+    }
+
+    drawScores();
 }
 
+//****************//
+// Event handlers
+//****************//
+
 $oxoGrid.addEventListener('click', gridClicked);
+$playAgainBtn.addEventListener('click', init);
 
 init();
