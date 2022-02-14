@@ -8,19 +8,9 @@
 // expected output: [2,4,6]
 
 function doubleNumbers(arr) {
-    // function callback(element, index, array) {}
-    //
-    // return arr.map(callback);
-    //
-    // return arr.map(function() {
-    //
-    // })
-
-    return arr.map((element) => element * 2);
-
-    // return arr.map(function (element) {
-    //     return element * 2;
-    // });
+    return arr.map(function (element) {
+        return element * 2;
+    });
 }
 
 // Take an array of numbers and make them strings
