@@ -10,7 +10,7 @@ let $winnerSubmitBtn = document.getElementById('winner-submit-btn');
 let gameSettings = {
     minNum: 0,
     maxNum: 4,
-    numCount: 5,
+    numCount: 6,
     maxTries: 5,
 };
 
@@ -124,6 +124,30 @@ function countCorrectNum(curGuess) {
 }
 
 /**
+ *
+ */
+function drawFirstLoad() {
+    $solutionContainer.innerHTML = '';
+    $tryInputContainer.innerHTML = '';
+    let solutionOptionHTML = '';
+    let inputHTML = '';
+
+    for (let i = 0; i < gameSettings.numCount; i++) {
+        solutionOptionHTML += `<div class="solution-option">1</div>`;
+        inputHTML += `<input
+                        class="try-input"
+                        type="number"
+                        min="0"
+                        max="4"
+                        step="1"
+                    />`;
+    }
+
+    $solutionContainer.insertAdjacentHTML('beforeend', solutionOptionHTML);
+    $tryInputContainer.insertAdjacentHTML('beforeend', inputHTML);
+}
+
+/**
  * Empty $triesContainer
  * Add class 'hidden' to $solutionContainer
  * Add class 'dont-show' to $winnerMessageContainer
@@ -188,8 +212,12 @@ function drawGameOver() {
     }
 }
 
-function init() {
+function init(firstLoad) {
     gameState.solution = generateSolution();
+
+    if (firstLoad === true) {
+        drawFirstLoad();
+    }
 
     drawEmptyGame();
     drawSolution();
@@ -222,4 +250,4 @@ function tryBtnClicked() {
 $trySubmitBtn.addEventListener('click', tryBtnClicked);
 $winnerSubmitBtn.addEventListener('click', init);
 
-init();
+init(true);
