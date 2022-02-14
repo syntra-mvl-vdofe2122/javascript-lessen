@@ -65,15 +65,13 @@ function getGuess() {
  * @return {Number}
  */
 function countCorrectNumAndPlace(curGuess) {
-    let count = 0;
-
-    for (let i = 0; i < curGuess.length; i++) {
-        if (curGuess[i] === gameState.solution[i]) {
-            count++;
+    return curGuess.reduce(function (prevVal, element, index) {
+        if (element === gameState.solution[index]) {
+            prevVal++;
         }
-    }
 
-    return count;
+        return prevVal;
+    }, 0);
 }
 
 /**
@@ -109,18 +107,17 @@ function copySolution() {
  */
 function countCorrectNum(curGuess) {
     let solutionCopy = copySolution();
-    let count = 0;
 
-    for (let i = 0; i < curGuess.length; i++) {
-        let indexFound = solutionCopy.indexOf(curGuess[i]);
+    return curGuess.reduce(function (prevVal, element) {
+        let indexFound = solutionCopy.indexOf(element);
 
         if (indexFound > -1) {
-            count++;
+            prevVal++;
             solutionCopy.splice(indexFound, 1);
         }
-    }
 
-    return count;
+        return prevVal;
+    }, 0);
 }
 
 /**
