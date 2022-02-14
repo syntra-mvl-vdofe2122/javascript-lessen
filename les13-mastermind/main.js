@@ -16,6 +16,9 @@ let gameSettings = {
 
 let gameState = {
     solution: null,
+    guessCount: 0,
+    won: false,
+    lost: false,
 };
 
 /**
@@ -62,8 +65,41 @@ function getGuess() {
  * @return {Number}
  */
 function countCorrectNumAndPlace(curGuess) {
-    // loop over curGuess
-    return 2;
+    let count = 0;
+
+    for (let i = 0; i < curGuess.length; i++) {
+        if (curGuess[i] === gameState.solution[i]) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+/**
+ *
+ * @return {Number[]}
+ */
+function copySolution() {
+    // return gameState.solution; > geen copy, by reference
+
+    // let newSolution = [];
+    //
+    // for (let i = 0; i < gameState.solution.length; i++) {
+    //     newSolution.push(gameState.solution[i]);
+    // }
+    //
+    // return newSolution;
+
+    return [...gameState.solution];
+
+    // ...[1,2,3,4,5] > 1,2,3,4,5 > [   1,2,3,4,5  ]
+    // Math.max(...[1,2,3,4,5]) > Math.max(1,2,3,4,5)
+
+    // return JSON.parse(JSON.stringify(gameState.solution));
+
+    // JSON.parse('[1,2,3,4,5]') > [1,2,3,4,5]
+    // [1,2,3,4,5] > '[1,2,3,4,5]' > [1,2,3,4,5]
 }
 
 /**
@@ -72,11 +108,19 @@ function countCorrectNumAndPlace(curGuess) {
  @return {Number}
  */
 function countCorrectNum(curGuess) {
-    // copy solution
-    // 1,1,2,0,4
-    // 2,2,2,,3,3
+    let solutionCopy = copySolution();
+    let count = 0;
 
-    return 3;
+    for (let i = 0; i < curGuess.length; i++) {
+        let indexFound = solutionCopy.indexOf(curGuess[i]);
+
+        if (indexFound > -1) {
+            count++;
+            solutionCopy.splice(indexFound, 1);
+        }
+    }
+
+    return count;
 }
 
 /**
@@ -88,6 +132,11 @@ function drawEmptyGame() {
     $triesContainer.innerHTML = '';
     $solutionContainer.classList.add('hidden');
     $winnerMessageContainer.classList.add('dont-show');
+    $trySubmitBtn.disabled = false;
+
+    for (let i = 0; i < $tryInputContainer.children.length; i++) {
+        $tryInputContainer.children[i].value = '';
+    }
 }
 
 /**
@@ -125,6 +174,20 @@ function drawTry(guess, correctNumAndPlace, correctNum) {
     $triesContainer.insertAdjacentHTML('beforeend', html);
 }
 
+function drawGameOver() {
+    if (gameState.won || gameState.lost) {
+        $solutionContainer.classList.remove('hidden');
+        $winnerMessageContainer.classList.remove('dont-show');
+        $trySubmitBtn.disabled = true;
+
+        if (gameState.won) {
+            $winnerSubmitBtn.innerText = 'You won, try again?';
+        } else {
+            $winnerSubmitBtn.innerText = 'You lost, try again?';
+        }
+    }
+}
+
 function init() {
     gameState.solution = generateSolution();
 
@@ -137,14 +200,23 @@ function init() {
 function tryBtnClicked() {
     let guess = getGuess();
     let correctNumAndPlace = countCorrectNumAndPlace(guess);
-    let correctNum = countCorrectNum(guess);
+    let correctNum = countCorrectNum(guess) - correctNumAndPlace;
 
     if (!guess) {
         $trySubmitBtn.innerText = 'Invalid guess, try again.';
         return;
     }
 
+    gameState.guessCount++;
+
+    if (correctNumAndPlace === gameSettings.numCount) {
+        gameState.won = true;
+    } else if (gameState.guessCount === gameSettings.maxTries) {
+        gameState.lost = true;
+    }
+
     drawTry(guess, correctNumAndPlace, correctNum);
+    drawGameOver();
 }
 
 $trySubmitBtn.addEventListener('click', tryBtnClicked);
