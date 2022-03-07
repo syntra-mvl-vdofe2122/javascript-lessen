@@ -1,0 +1,47 @@
+.resource-details-extra-btn {
+    padding: 5px;
+    font-size: 12px;
+}
+
+.loading {
+    min-height: 5rem;
+    position: relative;
+}
+
+.loading:before {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(32, 43, 56, 0.47);
+}
+
+.loading:after {
+    display: block;
+    content: '';
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 0.2rem;
+    border-color: white transparent white transparent;
+    top: 50%;
+    left: 50%;
+    margin: -1rem 0 0 -1rem;
+    box-sizing: border-box;
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
