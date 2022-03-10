@@ -2,6 +2,19 @@ let $resourceList = document.getElementById('resource-list');
 let $resourceItem = document.getElementById('resource-item');
 let $resourceDetails = document.getElementById('resource-details');
 
+let state = {
+    selectedResource: null,
+};
+
+function getResourceFromUrl(url) {
+    let splitUrl = url.split('/');
+    return splitUrl[splitUrl.length - 3];
+}
+
+function generateResourceItemUrlFromName(name) {
+    return `https://swapi.dev/api/${name}/`;
+}
+
 /**
  * Draw buttons for each resource
  * @param {Object} resources
@@ -18,6 +31,23 @@ function drawResourceList(resources) {
     $resourceList.insertAdjacentHTML('beforeend', resourceBtns);
 }
 
+function drawPagination(resourceItem) {
+    console.log(resourceItem);
+    let paginationHTML = '<div class="pagination-btn-container">';
+
+    if (resourceItem.previous) {
+        paginationHTML += `<button class="pagination-btn" data-url="${resourceItem.previous}" >Previous</button>`;
+    }
+
+    if (resourceItem.next) {
+        paginationHTML += `<button class="pagination-btn" data-url="${resourceItem.next}" >Next</button>`;
+    }
+
+    paginationHTML += '</div>';
+
+    return paginationHTML;
+}
+
 /**
  * Draw resource item
  * @param {string} name
@@ -32,6 +62,8 @@ function drawResourceItem(name, resource) {
         prevVal += `<button class="resource-details-btn" data-url="${item.url}">${label}</button>`;
         return prevVal;
     }, resourceHTML);
+
+    resourceHTML += drawPagination(resource);
 
     $resourceItem.innerHTML = resourceHTML;
 }
@@ -53,6 +85,7 @@ function drawResourceDetails(name, details) {
         'characters',
         'pilots',
     ];
+    let dateKeys = ['created', 'edited'];
 
     let detailsPromises = detailKeys.map((key) => {
         if (ignoreKeys.includes(key)) {
@@ -61,6 +94,14 @@ function drawResourceDetails(name, details) {
 
         if (urlKeys.includes(key)) {
             return fetchExtraDetails(key, details[key]);
+        }
+
+        if (dateKeys.includes(key)) {
+            let dateString = new Date(details[key]).toLocaleDateString('nl-BE');
+
+            return Promise.resolve(
+                `<p><strong>${key}:</strong> ${dateString}</p>`,
+            );
         }
 
         return Promise.resolve(
@@ -213,6 +254,12 @@ function resourceListClicked(event) {
         let resourceName = event.target.innerText;
         let url = event.target.dataset.url;
 
+        if (state.selectedResource !== resourceName) {
+            $resourceDetails.innerHTML = '';
+        }
+
+        state.selectedResource = resourceName;
+
         fetchResourceItem(resourceName, url);
     }
 }
@@ -228,14 +275,36 @@ function resourceItemClicked(event) {
 
         fetchResourceDetails(resourceName, url);
     }
-}
 
-function resourceDetailsClicked(event) {
-    if (event.target.matches('.resource-details-extra-btn')) {
-        let resourceName = event.target.innerText;
+    if (event.target.matches('.pagination-btn')) {
+        console.log('ik werk');
+
+        let resourceName = state.selectedResource;
         let url = event.target.dataset.url;
 
-        fetchResourceDetails(resourceName, url);
+        fetchResourceItem(resourceName, url);
+    }
+}
+
+/**
+ * Click handler for extra buttons
+ * @param {MouseEvent} event
+ */
+function resourceDetailsClicked(event) {
+    if (event.target.matches('.resource-details-extra-btn')) {
+        let resourceDetailsName = event.target.innerText;
+        let url = event.target.dataset.url;
+
+        let newResource = getResourceFromUrl(url);
+        if (newResource !== state.selectedResource) {
+            state.selectedResource = newResource;
+            fetchResourceItem(
+                newResource,
+                generateResourceItemUrlFromName(newResource),
+            );
+        }
+
+        fetchResourceDetails(resourceDetailsName, url);
     }
 }
 

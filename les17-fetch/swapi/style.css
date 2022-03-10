@@ -45,3 +45,12 @@
         transform: rotate(360deg);
     }
 }
+
+.pagination-btn-container {
+    text-align: center;
+    padding: 2rem;
+}
+
+.pagination-btn {
+    border: 1px solid white;
+}
