@@ -1,0 +1,41 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+}
+
+.grid {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 2fr;
+    grid-template-areas:
+        'A A'
+        'B C';
+}
+
+@media screen and (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 2fr 3fr 1fr;
+        grid-template-areas:
+            'A'
+            'B'
+            'C';
+    }
+}
+
+.item-1 {
+    border: 10px solid springgreen;
+    grid-area: A;
+}
+
+.item-2 {
+    border: 10px solid cadetblue;
+    grid-area: B;
+}
+
+.item-3 {
+    border: 10px solid indianred;
+    grid-area: C;
+}
