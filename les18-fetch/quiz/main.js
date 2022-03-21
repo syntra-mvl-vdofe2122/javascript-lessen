@@ -1,17 +1,21 @@
 let $catSelectContainer = document.getElementById('cat-select-container');
 let $catSelectForm = document.getElementById('cat-select-form');
 let $catSelectSelect = document.getElementById('cat-select-select');
+let $catSelectDifficulty = document.getElementById('cat-select-difficulty');
+let $catSelectCount = document.getElementById('cat-select-count');
 let $catSelectSubmit = document.getElementById('cat-select-submit');
+let $quizAside = document.getElementById('quiz-aside');
 let $quizContainer = document.getElementById('quiz-container');
 let $quizTitle = document.getElementById('quiz-title');
 let $quizAnswerContainer = document.getElementById('quiz-answer-container');
-let $quizQuestionNumbers = document.querySelectorAll('.quiz__question-number');
 let $quizScore = document.getElementById('quiz-score');
 let $quizQuestion = document.getElementById('quiz-question');
 
 const QuestionCount = 10;
 
 let state = {
+    questionCount: null,
+    difficulty: null,
     error: false,
     catFetchComplete: false,
     gameOver: false,
@@ -31,7 +35,9 @@ let state = {
  * @param {'active' | 'correct' | 'wrong'} type
  */
 function drawQuestionNumberClass(index, type) {
-    $quizQuestionNumbers[index].classList.add(`quiz__question-number--${type}`);
+    $quizAside.children[
+        index
+    ].className = `quiz__question-number quiz__question-number--${type}`;
 }
 
 function drawPage() {
@@ -43,6 +49,22 @@ function drawPage() {
         $catSelectContainer.classList.add('hidden');
         $quizContainer.classList.remove('hidden');
     }
+}
+
+function drawAside() {
+    let asideHTML = '';
+
+    for (let i = 1; i <= state.questionCount; i++) {
+        asideHTML += `<div class="quiz__question-number">${i}</div>`;
+    }
+
+    asideHTML += `<div class="quiz__score">
+                    <span id="quiz-score">${state.score}</span><span>/</span><span>${state.questionCount}</span>
+                </div>`;
+
+    $quizAside.innerHTML = asideHTML;
+    $quizContainer.className = `quiz__container quiz__container--${state.questionCount}`;
+    $quizScore = document.getElementById('quiz-score');
 }
 
 function disableCatForm() {
@@ -68,7 +90,7 @@ function drawOptions(categories) {
     $catSelectSelect.innerHTML = optionsHTML;
 }
 
-function resetQuestionNumberClasses() {
+/*function resetQuestionNumberClasses() {
     $quizQuestionNumbers.forEach(($quizQuestionNumber) => {
         $quizQuestionNumber.classList.remove(
             'quiz__question-number--active',
@@ -76,7 +98,7 @@ function resetQuestionNumberClasses() {
             'quiz__question-number--wrong',
         );
     });
-}
+}*/
 
 function drawScore() {
     $quizScore.innerText = state.score;
@@ -112,9 +134,9 @@ function removeCatOption(catId) {
 
 function fetchQuestions() {
     let queryParams = new URLSearchParams();
-    queryParams.append('amount', QuestionCount);
+    queryParams.append('amount', state.questionCount);
     queryParams.append('category', state.selectedCatId);
-    queryParams.append('difficulty', 'medium');
+    queryParams.append('difficulty', state.difficulty);
     queryParams.append('type', 'boolean');
     queryParams.append('token', state.token);
 
@@ -173,6 +195,8 @@ function fetchToken() {
 function initCat() {
     state.selectedCatId = null;
     state.selectCatText = null;
+    state.difficulty = null;
+    state.questionCount = null;
 
     if (!state.catFetchComplete) {
         disableCatForm();
@@ -212,8 +236,7 @@ function initQuiz() {
         drawQuestion();
     });
 
-    resetQuestionNumberClasses();
-    drawScore();
+    drawAside();
     drawQuestion();
     drawQuestionNumberClass(state.turn, 'active');
 }
@@ -248,7 +271,7 @@ function answer(curAnswer) {
         drawQuestionNumberClass(state.turn, 'wrong');
     }
 
-    if (state.turn === QuestionCount - 1) {
+    if (state.turn === state.questionCount - 1) {
         drawEndQuestion();
         state.gameOver = true;
     } else {
@@ -263,10 +286,16 @@ function answer(curAnswer) {
 function submitCatSelect(event) {
     event.preventDefault();
 
-    let activeOption = event.target.querySelector('.cat-select__select option:checked');
+    let questionCount = $catSelectCount.value;
+    let difficulty = $catSelectDifficulty.value;
+    let activeOption = event.target.querySelector(
+        '#cat-select-select option:checked',
+    );
 
     state.selectedCatId = activeOption.value;
     state.selectCatText = activeOption.innerText;
+    state.difficulty = difficulty;
+    state.questionCount = questionCount;
 
     drawPage();
 

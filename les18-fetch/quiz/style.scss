@@ -49,6 +49,7 @@ html {
         height: 4rem;
         font-size: 2rem;
         text-align: center;
+        margin-top: 1rem;
     }
 
     &__submit {
@@ -116,11 +117,82 @@ html {
         padding: 1rem;
     }
 
-    &__aside {
-        @media screen and (max-width: 600px) {
-            grid-template-columns: repeat(6, 1fr);
-            grid-template-rows: repeat(2, 5rem);
+    &__container {
+        &--5 {
+            .quiz__aside,
+            .quiz__main {
+                grid-template-rows: repeat(6, 1fr);
+            }
+
+            .quiz__aside {
+                @media screen and (max-width: 600px) {
+                    grid-template-columns: repeat(6, 1fr);
+                    grid-template-rows: 5rem;
+                }
+            }
+
+            .quiz__question {
+                grid-row: span 5;
+            }
         }
+
+        &--10 {
+            .quiz__aside,
+            .quiz__main {
+                grid-template-rows: repeat(11, 1fr);
+            }
+
+            .quiz__aside {
+                @media screen and (max-width: 600px) {
+                    grid-template-columns: repeat(6, 1fr);
+                    grid-template-rows: repeat(2, 5rem);
+                }
+            }
+
+            .quiz__score {
+                @media screen and (max-width: 600px) {
+                    grid-column: span 2;
+                }
+            }
+
+            .quiz__aside {
+                @media screen and (max-width: 600px) {
+                    grid-template-columns: repeat(6, 1fr);
+                    grid-template-rows: repeat(2, 5rem);
+                }
+            }
+
+            .quiz__question {
+                grid-row: span 10;
+            }
+        }
+
+        &--15 {
+            .quiz__aside,
+            .quiz__main {
+                grid-template-rows: repeat(16, 1fr);
+            }
+
+            .quiz__aside {
+                @media screen and (max-width: 600px) {
+                    grid-template-columns: repeat(8, 1fr);
+                    grid-template-rows: repeat(2, 5rem);
+                }
+            }
+
+            .quiz__score {
+                @media screen and (max-width: 600px) {
+                    grid-column: span 1;
+                }
+            }
+
+            .quiz__question {
+                grid-row: span 15;
+            }
+        }
+    }
+
+    &__aside {
     }
 
     &__main {
@@ -128,7 +200,7 @@ html {
 
         @media screen and (max-width: 600px) {
             height: 100%;
-            grid-template-rows: 1fr 5rem;
+            grid-template-rows: 1fr 4rem;
             grid-template-columns: 100%;
             padding: 1rem;
             padding-top: 0;
@@ -138,7 +210,6 @@ html {
     &__question-number,
     &__score {
         background-color: #fff;
-        font-size: 4rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -154,22 +225,11 @@ html {
         &--wrong {
             background-color: red;
         }
-
-        @media screen and (max-width: 600px) {
-            font-size: 3rem;
-        }
-    }
-
-    &__score {
-        @media screen and (max-width: 600px) {
-            grid-column: span 2;
-        }
     }
 
     &__question {
         font-size: 4rem;
         text-align: center;
-        grid-row: span 10;
         background-color: white;
         display: flex;
         justify-content: center;
@@ -191,7 +251,6 @@ html {
         }
 
         background-color: green;
-        font-size: 4rem;
         border: none;
         color: white;
 
@@ -200,7 +259,7 @@ html {
         }
 
         @media screen and (max-width: 600px) {
-            font-size: 3rem;
+            font-size: 1rem;
         }
     }
 }

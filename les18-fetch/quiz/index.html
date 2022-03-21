@@ -15,11 +15,29 @@
             <form id="cat-select-form" class="cat-select__form">
                 <h1 class="cat-select__title">Select Category</h1>
                 <select
+                    name="question-count"
+                    id="cat-select-count"
+                    class="cat-select__select"
+                >
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </select>
+                <select
                     id="cat-select-select"
                     class="cat-select__select"
                     name="category"
                 >
                     <option value="0">Loading</option>
+                </select>
+                <select
+                    class="cat-select__select"
+                    id="cat-select-difficulty"
+                    name="difficulty"
+                >
+                    <option value="easy">easy</option>
+                    <option value="medium">medium</option>
+                    <option value="hard">hard</option>
                 </select>
                 <button
                     id="cat-select-submit"
@@ -34,7 +52,7 @@
         <div id="quiz-container" class="quiz__container hidden">
             <h1 id="quiz-title" class="quiz__title">Something Quiz</h1>
 
-            <aside class="quiz__aside">
+            <aside class="quiz__aside" id="quiz-aside">
                 <div
                     class="quiz__question-number quiz__question-number--active"
                 >
