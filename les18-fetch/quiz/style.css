@@ -116,6 +116,18 @@ html {
 .quiz__container--5 .quiz__question {
   grid-row: span 5;
 }
+.quiz__container--5 .quiz__question-number,
+.quiz__container--5 .quiz__score,
+.quiz__container--5 .quiz__answer {
+  font-size: 4rem;
+}
+@media screen and (max-width: 600px) {
+  .quiz__container--5 .quiz__question-number,
+.quiz__container--5 .quiz__score,
+.quiz__container--5 .quiz__answer {
+    font-size: 3rem;
+  }
+}
 .quiz__container--10 .quiz__aside,
 .quiz__container--10 .quiz__main {
   grid-template-rows: repeat(11, 1fr);
@@ -140,6 +152,18 @@ html {
 .quiz__container--10 .quiz__question {
   grid-row: span 10;
 }
+.quiz__container--10 .quiz__question-number,
+.quiz__container--10 .quiz__score,
+.quiz__container--10 .quiz__answer {
+  font-size: 4rem;
+}
+@media screen and (max-width: 600px) {
+  .quiz__container--10 .quiz__question-number,
+.quiz__container--10 .quiz__score,
+.quiz__container--10 .quiz__answer {
+    font-size: 3rem;
+  }
+}
 .quiz__container--15 .quiz__aside,
 .quiz__container--15 .quiz__main {
   grid-template-rows: repeat(16, 1fr);
@@ -151,12 +175,29 @@ html {
   }
 }
 @media screen and (max-width: 600px) {
+  .quiz__container--15 .quiz__main {
+    grid-template-rows: repeat(15, 1fr) 5rem;
+  }
+}
+@media screen and (max-width: 600px) {
   .quiz__container--15 .quiz__score {
     grid-column: span 1;
   }
 }
 .quiz__container--15 .quiz__question {
   grid-row: span 15;
+}
+.quiz__container--15 .quiz__question-number,
+.quiz__container--15 .quiz__score,
+.quiz__container--15 .quiz__answer {
+  font-size: 2.5rem;
+}
+@media screen and (max-width: 600px) {
+  .quiz__container--15 .quiz__question-number,
+.quiz__container--15 .quiz__score,
+.quiz__container--15 .quiz__answer {
+    font-size: 2rem;
+  }
 }
 .quiz__main {
   padding-left: 0;
@@ -175,6 +216,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 2rem;
 }
 .quiz__question-number--active, .quiz__score--active {
   background-color: yellow;

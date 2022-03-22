@@ -228,7 +228,7 @@ function initQuiz() {
         if (body.response_code !== 0) {
             drawErrorQuestion();
             state.error = true;
-            removeCatOption(state.selectedCatId);
+            // removeCatOption(state.selectedCatId);
             return;
         }
 
