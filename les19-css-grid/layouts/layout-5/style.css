@@ -1,0 +1,78 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: Helvetica, sans-serif;
+}
+
+.grid {
+    display: grid;
+    box-sizing: border-box;
+    height: 100%;
+    grid-template-rows: 200px 200px 1fr 200px;
+    grid-template-columns: 300px 1fr 300px;
+    border: solid 5px goldenrod;
+    grid-template-areas:
+        'a a a'
+        'c b e'
+        'c d e'
+        'f f f';
+}
+
+@media screen and (max-width: 900px) {
+    .grid {
+        grid-template-rows: 150px 150px 1fr 150px;
+        grid-template-columns: 300px 1fr;
+        grid-template-areas:
+            'a a'
+            'b b'
+            'c d'
+            'e f';
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .grid {
+        grid-template-rows: 100px 100px 1fr 100px 100px 100px;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'a'
+            'b'
+            'd'
+            'c'
+            'e'
+            'f';
+    }
+}
+
+.grid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    border: solid 5px goldenrod;
+}
+
+.grid-item--a {
+    grid-area: a;
+}
+
+.grid-item--b {
+    grid-area: b;
+}
+
+.grid-item--c {
+    grid-area: c;
+}
+
+.grid-item--d {
+    grid-area: d;
+}
+
+.grid-item--e {
+    grid-area: e;
+}
+
+.grid-item--f {
+    grid-area: f;
+}
