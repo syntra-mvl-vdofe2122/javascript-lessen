@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Vue Calc</title>
+
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <main id="calculator">
+            <div id="screen">{{result}}</div>
+            <div id="input">
+                <div id="input-numbers">
+                    <!-- for (let i = 1; i <= 9; i++)-->
+                    <button v-for="i in 9" @click="numberInput(i)" :key="i">
+                        {{i}}
+                    </button>
+                    <button @click="numberInput('.')">,</button>
+                    <button @click="numberInput(0)">0</button>
+                    <button @click="calculateResult">=</button>
+                </div>
+                <div id="input-operators">
+                    <button
+                        v-for="(operator) in operators"
+                        :key="operator"
+                        class="operator"
+                        @click="operatorInput(operator)"
+                    >
+                        {{ operator }} {{index}}
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <script src="https://unpkg.com/vue@3"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

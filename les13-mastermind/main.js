@@ -211,6 +211,8 @@ function drawGameOver() {
 
 function init(firstLoad) {
     gameState.solution = generateSolution();
+    gameState.won = false;
+    gameState.lost = false;
 
     if (firstLoad === true) {
         drawFirstLoad();
@@ -224,13 +226,14 @@ function init(firstLoad) {
 
 function tryBtnClicked() {
     let guess = getGuess();
-    let correctNumAndPlace = countCorrectNumAndPlace(guess);
-    let correctNum = countCorrectNum(guess) - correctNumAndPlace;
 
     if (!guess) {
         $trySubmitBtn.innerText = 'Invalid guess, try again.';
         return;
     }
+
+    let correctNumAndPlace = countCorrectNumAndPlace(guess);
+    let correctNum = countCorrectNum(guess) - correctNumAndPlace;
 
     gameState.guessCount++;
 

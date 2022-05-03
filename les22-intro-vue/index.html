@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Intro Vue</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css"
+        />
+
+        <style>
+            .odd {
+                color: goldenrod;
+            }
+
+            .even {
+                color: #00a5a5;
+            }
+
+            .underline {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <h1 v-html="title" class="title" :class="oddEvenClass"></h1>
+
+            <div v-if="count <= 10">v-if</div>
+            <div v-show="count <= 10">v-show</div>
+
+            <div v-if="count <= 10" :class="oddEvenClassMethod()">
+                You have clicked {{ count === 0 ? 'zero' : count }} times
+            </div>
+            <div v-else-if="count <= 15">Almost too much clicks</div>
+            <div v-else :style="tooMuchStyles">Too much clicks!!!</div>
+            <div>
+                <button @click="addClick">Add one</button>
+                <button :disabled="count === 0" @click="reduceClick">
+                    Remove one
+                </button>
+            </div>
+            <div>
+                <button @click="updateTitle">I'm happy</button>
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/vue@3"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

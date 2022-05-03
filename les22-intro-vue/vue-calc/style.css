@@ -1,0 +1,43 @@
+#input {
+    display: grid;
+    width: 600px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 150px);
+    margin: 0 auto;
+    gap: 5px;
+}
+
+#input-numbers {
+    grid-column: span 3;
+    grid-row: span 4;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 150px);
+    gap: 5px;
+}
+
+#input-operators {
+    grid-column: 4;
+    display: grid;
+    grid-row: span 4;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(4, 150px);
+    gap: 5px;
+}
+
+#input button {
+    margin: 0;
+    font-size: 25px;
+}
+
+#screen {
+    width: 600px;
+    height: 150px;
+    background-color: #0c151c;
+    margin: 5px auto;
+    border-radius: 6px;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    line-height: 150px;
+}
