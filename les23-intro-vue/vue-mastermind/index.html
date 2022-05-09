@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Mastermind</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"
+        />
+        <link
+            rel="stylesheet"
+            integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <div id="app">
+            <section class="hero is-primary">
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title">Mastermind</h1>
+                    </div>
+                </div>
+            </section>
+            <div class="container">
+                <section id="solution-container" :class="{hidden: !gameOver}">
+                    <div
+                        v-for="solutionNum in solution"
+                        class="solution-option"
+                    >
+                        {{ solutionNum }}
+                    </div>
+                </section>
+
+                <section id="tries-container">
+                    <div class="try" v-for="curTry in tries">
+                        <div class="try-option-container">
+                            <div v-for="num in curTry.try" class="try-option">
+                                {{num}}
+                            </div>
+                        </div>
+                        <p>Juiste nummer: {{curTry.correctNum}}</p>
+                        <p>
+                            Juiste nummer op de juiste plaats:
+                            {{curTry.correctNumAndPlace}}
+                        </p>
+                    </div>
+                </section>
+
+                <br />
+
+                <section id="try-input-section" class="">
+                    <div id="try-input-container">
+                        <input
+                            v-for="count in gameSettings.numCount"
+                            class="try-input"
+                            type="number"
+                            :min="gameSettings.minNum"
+                            :max="gameSettings.maxNum"
+                            step="1"
+                            v-model="curGuess[count - 1]"
+                        />
+                    </div>
+                    <button
+                        id="try-submit-btn"
+                        class="button is-fullwidth is-primary"
+                        @click="guess"
+                        :disabled="gameOver"
+                    >
+                        {{ guessBtnText }}
+                    </button>
+                </section>
+                <section
+                    id="winner-message-container"
+                    :class="{'dont-show': !gameOver}"
+                >
+                    <button
+                        id="winner-submit-btn"
+                        class="button is-fullwidth is-primary"
+                        @click="init"
+                    >
+                        {{ winnerBtnText }}
+                    </button>
+                </section>
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/vue@3"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

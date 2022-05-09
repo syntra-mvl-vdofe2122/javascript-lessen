@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="nl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Vue intro</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div id="app">
+            <h1>Hello {{name}}</h1>
+
+            <div>
+                <label>
+                    Name:
+                    <input type="text" v-model="name" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Age:
+                    <input type="number" v-model="age" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Pets:
+                    <input type="checkbox" v-model="pets" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Favourite food
+                    <select v-model="food">
+                        <option
+                            v-for="(foodLabel, foodVal) in foods"
+                            :value="foodVal"
+                        >
+                            {{foodLabel}}
+                        </option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Numbers:
+                    <input type="number" v-model="numbers[0]" />
+                    <input type="number" v-model="numbers[1]" />
+                    <input type="number" v-model="numbers[2]" />
+                    <input type="number" v-model="numbers[3]" />
+                </label>
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/vue@3"></script>
+        <script src="main.js"></script>
+    </body>
+</html>
