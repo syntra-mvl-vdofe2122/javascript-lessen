@@ -12,6 +12,12 @@ Vue.createApp({
             },
 
             numbers: [1, 2, 3, 4],
+            ageDifference: 0,
         };
+    },
+    watch: {
+        age(oldVal, newVal) {
+            this.ageDifference = newVal - oldVal;
+        },
     },
 }).mount('#app');

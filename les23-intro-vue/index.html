@@ -25,6 +25,9 @@
                     Age:
                     <input type="number" v-model="age" />
                 </label>
+                <p v-if="ageDifference !== 0">
+                    You changed your age by {{ ageDifference }}
+                </p>
             </div>
             <div>
                 <label>
